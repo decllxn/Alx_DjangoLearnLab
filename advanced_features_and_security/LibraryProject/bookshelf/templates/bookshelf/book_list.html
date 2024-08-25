@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Book List</h1>
+
+<!-- Search Form -->
+<form method="POST" action="{% url 'search_books' %}">
+    {% csrf_token %} <!-- CSRF token included here -->
+
+    <label for="search">Search for books:</label>
+    <input type="text" id="search" name="search" placeholder="Enter book title or author" required/>
+
+    <input type="submit" value="Search"/>
+</form>
+
+<!-- Book List Display -->
+<ul>
+    {% for book in books %}
+    <li>
+        <a href="{% url 'book_detail' book.id %}">{{ book.title }} by {{ book.author }}</a>
+    </li>
+    {% empty %}
+    <li>No books found.</li>
+    {% endfor %}
+</ul>
+
+{% endblock %}
+

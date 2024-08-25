@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-xck#*e^fb0e+aq!j$mbyl!_99gy5&vh%89ted&v^j&r2(gbbx='
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -52,6 +52,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_csp.middleware.CSPMiddleware',
 ]
 
 ROOT_URLCONF = 'LibraryProject.urls'
@@ -126,3 +127,51 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Enable the browser's built-in XSS filter
+SECURE_BROWSER_XSS_FILTER = True
+
+# Prevent your site from being embedded in frames to protect against clickjacking attacks
+X_FRAME_OPTIONS = 'DENY'
+
+# Prevent browsers from interpreting files as a different MIME type than what is declared
+SECURE_CONTENT_TYPE_NOSNIFF = True
+
+# Only send CSRF cookies over HTTPS
+CSRF_COOKIE_SECURE = True
+
+# Only send session cookies over HTTPS
+SESSION_COOKIE_SECURE = True
+
+PASSWORD_HASHERS = [
+    'django.contrib.auth.hashers.PBKDF2PasswordHasher',
+    'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
+    'django.contrib.auth.hashers.Argon2PasswordHasher',
+    'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
+]
+# Prevent the Django admin from being accessible without a CSRF token
+CSRF_COOKIE_HTTPONLY = True
+
+# Use a more secure secret key for production
+SECRET_KEY = 'your-very-secure-random-secret-key-here'
+
+# Set a custom user agent to help prevent CSRF attacks
+CSRF_USE_SESSIONS = True
+
+# Enable HTTP Strict Transport Security (HSTS) to enforce secure connections
+SECURE_HSTS_SECONDS = 31536000  # One year
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+
+
+CSP_DEFAULT_SRC = ("'self'",)
+CSP_STYLE_SRC = ("'self'", 'https://fonts.googleapis.com')
+CSP_SCRIPT_SRC = ("'self'", 'https://code.jquery.com')
+CSP_IMG_SRC = ("'self'", 'data:', 'https://images.example.com')
+CSP_FONT_SRC = ("'self'", 'https://fonts.gstatic.com')
+CSP_OBJECT_SRC = ("'none'",)
+CSP_CONNECT_SRC = ("'self'", 'https://api.example.com')
+CSP_BASE_URI = ("'self'",)
+CSP_FORM_ACTION = ("'self'",)
+CSP_FRAME_ANCESTORS = ("'none'",)
+CSP_REPORT_URI = '/csp-report-endpoint/' 

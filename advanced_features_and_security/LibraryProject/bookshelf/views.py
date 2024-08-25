@@ -4,6 +4,9 @@ from django.contrib.auth import login as auth_login, authenticate
 from django.contrib import messages
 from .models import Book
 from .forms import BookForm
+from .forms import SearchForm
+from .forms import ExampleForm
+
 
 # Create your views here.
 @permission_required('bookshelf.can_view', raise_exception=True)
@@ -51,3 +54,20 @@ def delete_book(request, book_id):
 
 def custom_permission_denied_view(request, exception):
     return render(request, '403.html', status=403)
+
+def book_list(request):
+    # Handle form submission if POST request
+    form  = SearchForm(request.POST or None)
+    book = Book.objects.all()
+
+
+    if request.method == 'POST' and form.is_valid():
+        search_query = form.cleaned_data['search']
+        if search_query:
+            books = books.filter(title__icontains=search_query) | books.filter(author__icontains=search_query)
+
+    context = {
+        'form': form,
+        'books': books
+    }
+    return render(request, 'book_list.html', context)
