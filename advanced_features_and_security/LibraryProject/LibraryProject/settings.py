@@ -175,3 +175,15 @@ CSP_BASE_URI = ("'self'",)
 CSP_FORM_ACTION = ("'self'",)
 CSP_FRAME_ANCESTORS = ("'none'",)
 CSP_REPORT_URI = '/csp-report-endpoint/' 
+
+# Redirect all HTTP requests to HTTPS
+SECURE_SSL_REDIRECT = True
+
+# HTTP Strict Transport Security (HSTS) settings
+# This ensures that browsers only use HTTPS for this site
+SECURE_HSTS_SECONDS = 31536000  # One year
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True  # Include all subdomains
+SECURE_HSTS_PRELOAD = True  # Allow preloading of HSTS
+
+# Optional: Add the following to ensure that the server itself uses HTTPS
+# Ensure your server is configured to handle this correctly
