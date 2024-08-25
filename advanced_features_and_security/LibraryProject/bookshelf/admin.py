@@ -42,3 +42,12 @@ class CustomUserAdmin(BaseUserAdmin):
 
 admin.site.register(CustomUser, CustomUserAdmin)
 
+permissions = [
+    Permission.objects.get_or_create(codename='can_view', name='Can view book', content_type=content_type),
+    Permission.objects.get_or_create(codename='can_create', name='Can create book', content_type=content_type),
+    Permission.objects.get_or_create(codename='can_edit', name='Can edit book', content_type=content_type),
+    Permission.objects.get_or_create(codename='can_delete', name='Can delete book', content_type=content_type),
+]
+
+for perm, created in permissions:
+    group.permissions.add(perm)
