@@ -6,20 +6,19 @@ from .models import Book
 from .serializers import BookSerializer
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
-class BookListView(generics.ListCreateAPIView):
+class CreateView(generics.CreateAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
 
-class BookDetailView(generics.RetrieveUpdateDestroyAPIView):
+class UpdateView(generics.UpdateAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
 
-class BookViewSet(viewsets.ModelViewSet):
+class DeleteView(generics.DestroyPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
-    filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['title', 'author', 'publication_year']
-    search_fields = ['title', 'author_name']
-    ordering_fields = ['title', 'publication_year']
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+    
