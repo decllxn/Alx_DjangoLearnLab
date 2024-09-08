@@ -1,6 +1,6 @@
 from rest_framework import viewsets
 from rest_framework import generics
-from django_filters import rest_framework
+from django_filters import SearchFilter, OrderingFilter
 from rest_framework.filters import SearchFilter, OrderingFilter
 from .models import Book
 from django_filters.rest_framework import DjangoFilterBackend
@@ -31,6 +31,7 @@ class ListView(generics.ListAPIView):
     search_fields = ['title', 'author']
     filterset_fileds = ['title', 'author']
     ordering_fields = ['title', 'author']
+    ordering = ['title', 'author']
 
 class DetailView(generics.RetrieveAPIView):
     queryset = Book.objects.all()
