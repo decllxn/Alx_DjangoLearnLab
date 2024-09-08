@@ -2,7 +2,7 @@ from rest_framework import serializers
 from .models import Author, Book
 from datetime import datetime
 
-class BookSerializer(serializers.ModelSerializers):
+class BookSerializer(serializers.ModelSerializer):
     class Meta:
         model = Book
         fields = '__all__'
@@ -15,7 +15,7 @@ class BookSerializer(serializers.ModelSerializers):
         if value > current_year:
             raise serializers.ValidationError('Publication year cannot be in the future')
         return value
-class AuthorSerializer(serializers.ModelSerializers):
+class AuthorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Author
         fields = '__all__'
