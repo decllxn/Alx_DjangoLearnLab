@@ -30,6 +30,7 @@ class ListView(generics.ListAPIView):
     filter_backends = [DjangoFilterBackend]
     search_fields = ['title', 'author']
     filterset_fileds = ['title', 'author']
+    ordering_fields = ['title', 'author']
 
 class DetailView(generics.RetrieveAPIView):
     queryset = Book.objects.all()
