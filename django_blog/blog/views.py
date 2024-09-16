@@ -23,4 +23,4 @@ def profile_view(request):
     return render(request, 'profile.html')
 
 def index(request):
-    return render(request, 'index.html')
+    return render(request, 'blog/index.html')
