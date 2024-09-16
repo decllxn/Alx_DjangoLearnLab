@@ -4,8 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Blog Home</title>
+    <title>{% block title %}My Blog{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'blog/style.css' %}">
 </head>
 <body>
@@ -14,21 +13,18 @@
             <h1>My Blog</h1>
             <ul>
                 <li><a href="/">Home</a></li>
-                <li><a href="#">About</a></li>
-                <li><a href="#">Contact</a></li>
+                <li><a href="/posts/">Posts</a></li>
+                <li><a href="/about/">About</a></li>
+                <li><a href="/contact/">Contact</a></li>
             </ul>
         </nav>
     </header>
 
-    <section class="blog-posts">
-        <h2>Latest Posts</h2>
-        <article>
-            <h3>Blog Post Title</h3>
-            <p>Published on <time>2024-09-14</time> by Author</p>
-            <p>This is a short description of the blog post content...</p>
-            <a href="#">Read more</a>
-        </article>
-    </section>
+    <main>
+        {% block content %}
+        <!-- Content will be inserted here -->
+        {% endblock %}
+    </main>
 
     <footer>
         <p>&copy; 2024 My Blog | All Rights Reserved</p>
