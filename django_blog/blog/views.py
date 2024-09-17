@@ -110,7 +110,7 @@ class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     
 def search_posts(request):
     query = request.GET.get('q')
-    posts = Post.objects.all()
+    posts = Post.objects.filter
 
     if query:
         posts = posts.filter(
