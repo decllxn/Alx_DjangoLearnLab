@@ -22,6 +22,10 @@
 
     <main>
         {% block content %}
+        <form method="GET" action="{% url 'search_posts' %}">
+            <input type="text" name="q" placeholder="Search...">
+            <button type="submit">Search</button>
+        </form>
         <!-- Content will be inserted here -->
         {% endblock %}
     </main>
