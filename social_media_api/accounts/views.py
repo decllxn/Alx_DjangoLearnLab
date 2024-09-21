@@ -37,7 +37,7 @@ class LoginView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class FollowUserView(generics.GenericAPIView):
-    permissions.IsAuthenticated
+    permissions.IsAuthenticated # type: ignore
     
     def post(self, request, user_id):
         user_to_follow = get_object_or_404(CustomUser, id=user_id)
@@ -78,3 +78,7 @@ class FollowersListView(generics.GenericAPIView):
         followers = request.user.followers.all()  # Retrieve all users who follow the current user
         serializer = self.get_serializer(followers, many=True)
         return Response(serializer.data)
+class CustomUserListView(generics.ListAPIView):
+    queryset = CustomUser.objects.all()
+    serializer_class = CustomUserSerializer
+    permission_classes = [IsAuthenticated]
