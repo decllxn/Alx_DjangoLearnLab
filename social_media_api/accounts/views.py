@@ -1,4 +1,4 @@
-from rest_framework import status
+from rest_framework import status, generics
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -36,18 +36,45 @@ class LoginView(APIView):
             return Response({'detail': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class FollowUser(APIView):
+class FollowUserView(generics.GenericAPIView):
     permission_classes = [IsAuthenticated]
-
+    
     def post(self, request, user_id):
         user_to_follow = get_object_or_404(CustomUser, id=user_id)
+        if user_to_follow == request.user:
+            return Response({"error": "You cannot follow yourself."}, status=status.HTTP_400_BAD_REQUEST)
+        
         request.user.following.add(user_to_follow)
         return Response({"message": f"You are now following {user_to_follow.username}"}, status=status.HTTP_200_OK)
 
-class UnfollowUser(APIView):
+# Unfollow a user
+class UnfollowUserView(generics.GenericAPIView):
     permission_classes = [IsAuthenticated]
-
+    
     def post(self, request, user_id):
         user_to_unfollow = get_object_or_404(CustomUser, id=user_id)
+        if user_to_unfollow == request.user:
+            return Response({"error": "You cannot unfollow yourself."}, status=status.HTTP_400_BAD_REQUEST)
+        
         request.user.following.remove(user_to_unfollow)
-        return Response({"message": f"You are no longer following {user_to_unfollow.username}"}, status=status.HTTP_200_OK)
+        return Response({"message": f"You have unfollowed {user_to_unfollow.username}"}, status=status.HTTP_200_OK)
+    
+# List users the authenticated user is following
+class FollowingListView(generics.GenericAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = CustomUserSerializer  # Assuming you have a UserSerializer
+
+    def get(self, request):
+        following = request.user.following.all()  # Retrieve all users the current user is following
+        serializer = self.get_serializer(following, many=True)
+        return Response(serializer.data)
+
+# List users who follow the authenticated user
+class FollowersListView(generics.GenericAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = CustomUserSerializer
+
+    def get(self, request):
+        followers = request.user.followers.all()  # Retrieve all users who follow the current user
+        serializer = self.get_serializer(followers, many=True)
+        return Response(serializer.data)
