@@ -37,8 +37,9 @@ class LoginView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class FollowUserView(generics.GenericAPIView):
-    permissions.IsAuthenticated # type: ignore
-    
+    permissions_classes = [IsAuthenticated]
+    # permissions.IsAuthenticated
+
     def post(self, request, user_id):
         user_to_follow = get_object_or_404(CustomUser, id=user_id)
         if user_to_follow == request.user:
