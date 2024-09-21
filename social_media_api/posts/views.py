@@ -66,6 +66,7 @@ def like_post(request, pk):
 @permission_classes([IsAuthenticated])
 def unlike_post(request, pk):
     try:
+        # generics.get_object_or_404(Post, pk=pk)
         post = Post.objects.get(pk=pk)
     except Post.DoesNotExist:
         return Response({"error": "Post not found"}, status=status.HTTP_404_NOT_FOUND)
