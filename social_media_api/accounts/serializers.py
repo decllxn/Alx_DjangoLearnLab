@@ -6,6 +6,9 @@ from django.contrib.auth import get_user_model
 CustomUser = get_user_model()
 
 class CustomUserSerializer(serializers.ModelSerializer):
+    following = serializers.PrimaryKeyRelatedField(many=True, queryset=CustomUser.objects.all())
+    followers = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+
     class Meta:
         model = CustomUser
         fields = ['id', 'username', 'email', 'bio', 'profile_picture', 'followers']
