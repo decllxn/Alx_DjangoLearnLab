@@ -12,9 +12,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-c_9x$r8zpbhh&eeja+(gfh8!py@7^u@i_#@jey7hzvl^hoe2mo'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['mysocialmediaapi.com', '']
 
 
 # Application definition
@@ -69,11 +69,14 @@ WSGI_APPLICATION = 'social_media_api.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'socialmedia',
+        'USER': 'decllxn',
+        'PASSWORD': 'King Declan1234',
+        'HOST': 'localhost',
+        'PORT': '5432',  # Default PostgreSQL port
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
